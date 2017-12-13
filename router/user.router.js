@@ -36,6 +36,12 @@ module.exports = () => {
     });
 
 
+    router.get('/email/:email', (req, res) => {
+        const correo = req.params.email;
+        User.find({email:correo})
+        .sort()
+        .exec(handler.handleOne.bind(null, 'users', res));
+    });
 
 
 
@@ -81,6 +87,26 @@ module.exports = () => {
         
         });
         
+    });
+
+
+
+
+    /* -- Modificaciones -- */
+    router.put('/:id', (req, res) => {
+       var id =args._id;
+       var updateObj = {updatedDate: Date.now()};
+       _.extend (updateObj, args);
+       
+       model.findByAndUpdate(id,updateObj, function(err, model){
+           if (err){
+               logger.error(modelString +':edit' + modelString + ' - ' + err.message);
+               self.emit('item:failure', 'Failed to edit' + modelString);
+               return;
+           }
+           self.emit('item.success', model);
+       });
+
     });
 
     return router;
