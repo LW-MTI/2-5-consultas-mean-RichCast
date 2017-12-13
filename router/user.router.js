@@ -1,3 +1,4 @@
+
 const router = require('express').Router();
 const handler = require('../utils/handler');
 const mongoose = require('mongoose');
@@ -25,6 +26,19 @@ module.exports = () => {
         .sort()
         .exec(handler.handleOne.bind(null, 'users', res));
     });
+
+
+    router.get('/name/:name', (req, res) => {
+        const nombre = req.params.name;
+        User.find({_name:nombre})
+        .sort()
+        .exec(handler.handleOne.bind(null, 'users', res));
+    });
+
+
+
+
+
 
     /*--inserciones--*/
 
@@ -62,7 +76,7 @@ module.exports = () => {
                 res.status(400);
                 res.json({error:err});
             }else{
-                res.json({msj:"todo estuvo bien"});
+                res.json({msj:"dato eliminado correctamente"});
             }
         
         });
